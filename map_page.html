@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>EV Charging Stations in Houston</title>
+        <style>
+            #map {
+                height: 80vh;
+                width: 100%;
+            }
+
+            .footer {
+                text-align: center;
+            }
+        </style>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClL76PectryEc7VxNcXg9hYWosQxjHJl0"></script>
+    </head>
+    <body>        
+        <div class="header">
+            <h1>Closest Electric Vehicle Charging Station to Your Location</h1>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="footer"><p>© 2025 Adolfo Chavez. All Rights Reserved.</p></div>
+
+        <!-- Google Maps API -->
+        <script>
+            function initMap() 
+            {
+                const map = new google.maps.Map(document.getElementById("map"), {
+                    center: { lat: 29.7604, lng: -95.3698 },
+                    zoom: 11,
+                });
+    
+                const kmlLayer = new google.maps.KmlLayer(
+                {
+                    url: 'https://data.houstontx.gov/dataset/ea02bc66-81a2-49ed-9111-1cca050b0c7d/resource/b43b100d-687f-4f66-802a-ea5df41a5a60/download/6-downtownchargingstations.kml',
+                    map: map,
+                    suppressInfoWindows: true,
+                    preserveViewport: true,
+                });
+        
+                kmlLayer.addListener('click', function(event) 
+                {
+                    const coords = event.latLng;
+                    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${coords.lat()},${coords.lng()}`;
+                    window.open(mapsUrl, '_blank');
+                });
+            }
+      
+            window.onload = initMap;
+        </script>
+    </body>
+</html>
